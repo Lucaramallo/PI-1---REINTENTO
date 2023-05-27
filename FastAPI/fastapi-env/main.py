@@ -51,7 +51,9 @@ salida:
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 
-
+render:
+web service 
+Start Command: uvicorn main:app --host 0.0.0.0 --port 10000
 """
 
 
