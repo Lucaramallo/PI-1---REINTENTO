@@ -67,9 +67,10 @@ from pydantic import BaseModel
 
  # Cargar el archivo pickle en un DataFrame
 # df_merged = pd.read_pickle('../../Datasets/Datasets_cleaned_ETL/Combinado_merged_movies_ratings/df_merged.pkl')
+df_merged = pd.read_pickle('CURSADO HENRY DTS09\PI\PI 1\PI1_REINTENTO_1\PI-1---REINTENTO\df_merged.pkl')
 
-with open('./df_merged.pkl', 'rb') as file:
-    df_merged = pickle.load(file)
+# with open('../PI-1---REINTENTO/df_merged.pkl') as file:
+#     df_merged = pickle.load(file)
 
 
 
