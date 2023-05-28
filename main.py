@@ -61,7 +61,6 @@ from typing import Union
 from fastapi import FastAPI
 from typing import Dict
 import json
-
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from pydantic import BaseModel
@@ -69,7 +68,7 @@ from pydantic import BaseModel
  # Cargar el archivo pickle en un DataFrame
 # df_merged = pd.read_pickle('../../Datasets/Datasets_cleaned_ETL/Combinado_merged_movies_ratings/df_merged.pkl')
 
-with open('./', 'rb') as file:
+with open('./df_merged.pkl', 'rb') as file:
     df_merged = pickle.load(file)
 
 
