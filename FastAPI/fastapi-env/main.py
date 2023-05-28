@@ -66,8 +66,8 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from pydantic import BaseModel
 
-# # Cargar el archivo pickle en un DataFrame
-# df_merged = pd.read_pickle('../../Datasets/Datasets_cleaned_ETL/Combinado_merged_movies_ratings/df_merged.pkl')
+ # Cargar el archivo pickle en un DataFrame
+df_merged = pd.read_pickle('../../Datasets/Datasets_cleaned_ETL/Combinado_merged_movies_ratings/df_merged.pkl')
 
 
 
