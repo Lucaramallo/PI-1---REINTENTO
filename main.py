@@ -306,21 +306,19 @@ def get_contents(rating: str):
     respuesta = {'rating_x': rating, 'num_contents': num_contents}
     return {'rating_x': rating, 'cantidad de contenido': num_contents}
 #____________________________________________________________________________________________________
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
 
-# Funcion 7:
-# Ruta: http://127.0.0.1:8000/get_recomendation/school%20of%20rock/50
-@app.get("/get_recomendation/{title}/{cantidad_recomendaciones}")
 def get_recommendation(title: str, cantidad_recomendaciones: int):
     """get_recommendation
-        Éste consiste en recomendar películas a los usuarios basándose en películas similares,
-         por lo que se debe encontrar la similitud de puntuación entre esa película y el resto de películas, 
-         se ordenarán según el score y devolverá una lista de Python con 5 valores, cada uno siendo el string del nombre de las películas 
-         con mayor puntaje, en orden descendente. Debe ser deployado como una función adicional de la API anterior 
-         y debe llamarse get_recommendation(titulo: str)
+    Éste consiste en recomendar películas a los usuarios basándose en películas similares,
+    por lo que se debe encontrar la similitud de puntuación entre esa película y el resto de películas, 
+    se ordenarán según el score y devolverá una lista de Python con 5 valores, cada uno siendo el string del nombre de las películas 
+    con mayor puntaje, en orden descendente. Debe ser deployado como una función adicional de la API anterior 
+    y debe llamarse get_recommendation(titulo: str)
     Args:
         title (str): titulo de pelicula a tomar como referencia, ejemplo: toy story
         cantidad_recomendaciones (int): cantidad de peliculas similares que quiero recibir como recomendaciones
-
     Returns:
         return : listado de peliculas recomendadas segun peticion, con su porcentaje de similitud coseno, indicando que tan similar en los topicos según
         la pelicula referencia.
@@ -334,7 +332,6 @@ def get_recommendation(title: str, cantidad_recomendaciones: int):
 
         # Obtener el índice de la película de referencia
         input_title = title
-        
         input_index = df_merged[df_merged['title'] == input_title].index[0]
 
         # Obtener las puntuaciones de similitud de la película de referencia
@@ -358,12 +355,12 @@ def get_recommendation(title: str, cantidad_recomendaciones: int):
 
     except IndexError:
         error_message = 'Try with another movie title. Could be this MVP do not know that movie. Here we have a limited database, more than 22,000 movies... other way, you must be sure that the movie name is correct, search it in Google, maybe it helps you... For example, use: "toy story" a kids movie we all know..'
-        
+
         # Buscar la palabra "Hola" en la columna "Campo"
         filtro = df_merged['title'].str.contains(title)
 
         # Aplicar el máscara al DataFrame original
-        resultados = df_merged.loc[filtro, 'title'].head(5)
+        resultados = df_merged.loc[filtro, 'title'].head(cantidad_recomendaciones)
 
         # Mostrar los resultados
         return {'Error': error_message, 'Related movies': resultados.tolist()}
