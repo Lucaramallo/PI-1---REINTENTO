@@ -437,6 +437,67 @@ def get_recommendation2(title: str, cantidad_recomendaciones: int):
         }
 
 
+#____________________________________________________________________________________________________
 
 
+@app.get("/get_recommendation3/{title}/{cantidad_recomendaciones}")
+def get_recommendation3(title: str, cantidad_recomendaciones: int):
+    """Get movie recommendations based on similarity scores.
+    
+    Args:
+        title (str): Title of the movie to use as a reference.
+        cantidad_recomendaciones (int): Number of similar movies to recommend.
+    
+    Returns:
+        dict: Recommended movies and their similarity scores.
+    """
+    try:
+        # Select relevant columns for cosine similarity calculation
+        columns_for_similarity = df_merged.columns[17:]
+        
+        # Calculate the cosine similarity matrix
+        cosine_sim_matrix = cosine_similarity(df_merged[columns_for_similarity])
+
+        # Get the index of the reference movie
+        reference_title = title
+        reference_index = df_merged[df_merged['title'] == reference_title].index[0]
+
+        # Get the similarity scores of the reference movie
+        similarity_scores = list(enumerate(cosine_sim_matrix[reference_index]))
+
+        # Sort movies based on similarity scores in descending order
+        sorted_scores = sorted(similarity_scores, key=lambda x: x[1], reverse=True)
+
+        # Get the indices of the most similar movies (excluding the reference movie)
+        similar_movies_indices = [i for i, _ in sorted_scores[:cantidad_recomendaciones]]
+
+        # Get the titles of the most similar movies
+        similar_movies_titles = df_merged.iloc[similar_movies_indices]['title']
+
+        # Generate the list of recommended movies with their similarity scores
+        result = []
+        for i, score in sorted_scores[:cantidad_recomendaciones]:
+            result.append({
+                "Movie": df_merged.iloc[i]['title'],
+                "Percentage of similarity": round(score * 100, 1)
+            })
+
+        return {
+            'Recomended movies': similar_movies_titles.to_dict(),
+            'Similarity scores': result
+        }
+
+    except IndexError:
+        error_message = 'Try with another movie title. Could be that this MVP does not know that movie. Here we have a limited database of more than 22,000 movies... Otherwise, make sure the movie name is correct. You can search it on Google. For example, use: "Toy Story" - a well-known kids movie.'
+
+        # Search for related movies using a filter on the "title" column
+        filtro = df_merged['title'].str.contains(title)
+
+        # Apply the mask to the original DataFrame
+        resultados = df_merged.loc[filtro, 'title'].head(5)
+
+        return {
+            'Error': error_message,
+            'Related movies': resultados.to_dict()
+        }
 
