@@ -72,7 +72,7 @@ from pydantic import BaseModel
 # with open('../PI-1---REINTENTO/df_merged.pkl') as file:
 #     df_merged = pickle.load(file)
 
-df_merged = pd.read_csv('CURSADO HENRY DTS09\PI\PI 1\PI1_REINTENTO_1\PI-1---REINTENTO\df_merged.csv')
+df_merged = pd.read_csv('./df_merged.csv')
 
 app = FastAPI()
 
