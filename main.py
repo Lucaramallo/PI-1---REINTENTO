@@ -361,7 +361,7 @@ def get_recommendation(title: str, cantidad_recomendaciones: int):
         filtro = df_merged['title'].str.contains(title)
 
         # Aplicar el máscara al DataFrame original
-        resultados = df_merged.loc[filtro, 'title'].head(cantidad_recomendaciones)
+        resultados = df_merged.loc[filtro, 'title']
 
         # Mostrar los resultados
         return {'Error': error_message, 'Related movies': resultados.tolist()}
