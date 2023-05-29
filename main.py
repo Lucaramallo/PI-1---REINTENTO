@@ -306,9 +306,10 @@ def get_contents(rating: str):
     respuesta = {'rating_x': rating, 'num_contents': num_contents}
     return {'rating_x': rating, 'cantidad de contenido': num_contents}
 #____________________________________________________________________________________________________
-import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
 
+# Funcion 7:
+# Ruta: http://127.0.0.1:8000/get_recomendation/school%20of%20rock/50
+@app.get("/get_recomendation/{title}/{cantidad_recomendaciones}")
 def get_recommendation(title: str, cantidad_recomendaciones: int):
     """get_recommendation
     Éste consiste en recomendar películas a los usuarios basándose en películas similares,
@@ -364,10 +365,6 @@ def get_recommendation(title: str, cantidad_recomendaciones: int):
 
         # Mostrar los resultados
         return {'Error': error_message, 'Related movies': resultados.tolist()}
-
-
-#____________________________________________________________________________________________________
-
 
 
 
